@@ -1,0 +1,366 @@
+    :root {
+      --primary: #473523;
+      --secondary: #b99259;
+      --bg-light: #F8F4E3;
+      --text-dark: #222222;
+      --accent: #7C9A6D;
+      -primary: #08072e;
+      -secondary: #434268;
+    }
+
+
+html{height: 100%;}
+
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    header {
+      background: var(--primary);
+      padding: 1rem 2rem;
+      display: flex;
+      height: 5rem;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--bg-light);
+    }
+
+    .brandBox {
+      position: relative;
+    }
+
+    .headDrop {
+      position: absolute;
+      top: 100%;
+      /* directly below the brandBox */
+      left: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: var(--secondary);
+      display: none;
+      flex-direction: column;
+      z-index: 3;
+      border-radius: 0.2rem;
+    }
+
+    .brandBox:hover .headDrop {
+      display: flex;
+    }
+
+    .brandBox:hover .headItems{
+      color: var(--secondary);
+      cursor: default;
+    }
+
+    .headDropItem {
+      padding: 0.3rem 2rem 0.3rem 1rem;
+      white-space: nowrap;
+    }
+
+    .headDropItem:hover a {
+      color: var(--bg-light);
+      text-decoration: none;
+      
+    }
+
+     header a {
+      text-decoration: none;
+      color: var(--bg-light);
+
+    }
+
+    .headDropItem:hover {
+      background: rgba(255, 255, 255, 0.2);
+      /* or any hover effect */
+    }
+
+    .filterCon{
+      border: none; background: none; color: inherit; font-size: inherit;margin-top: 0.1rem;cursor: pointer;
+    }
+
+
+
+
+    .search * {
+      background: none;
+      border: none;
+    }
+
+    .serCon {
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      border-radius: 2rem;
+
+    }
+
+    .searchSt {
+      background-color: #b99259;
+      border-top-left-radius: 1.5rem;
+      border-bottom-left-radius: 1.5rem;
+      height: 2.12rem;
+
+    }
+
+    .search input {
+      display: none;
+      background-color: #F8F4E3;
+      width: 16rem;
+      height: 2rem;
+      border-top-right-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+
+    }
+
+
+    header nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+
+    .cart {
+      padding-right: 4rem;
+     background: none;
+     display: flex;
+     flex-direction: column;
+     border: none;
+    }
+
+
+    .cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vh;
+  height: 100vh;
+  background: var(--bg-light);
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.cart-panel.visible {
+  transform: translateX(0);
+}
+
+.cart-panel .cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
+    .logo {
+      font-size: 1.5rem;
+      color: var(--secondary);
+    }
+
+    .main-content {
+      margin-top: 5rem;
+      padding: 2rem;
+    }
+ 
+    .brand-section {
+      margin-bottom: 2rem;
+    }
+
+    .brand-section h2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--primary);
+    }
+
+
+    .fillProduct {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-bottom: 0.5rem;
+      white-space: nowrap;
+      margin-top: 2rem;
+    }
+
+
+
+
+    
+    .product-row {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+      white-space: nowrap;
+      scroll-behavior: auto;
+      scrollbar-width: none;
+    }
+
+    .viewStyle{
+      flex-wrap: wrap;
+    }
+
+
+    .product-card {
+      background: white;
+       flex: 0 0 auto; 
+      width: 150px;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .product-card img {
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    .product-card .price {
+      color: var(--secondary);
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .product-card button {
+      background: var(--primary);
+      color: var(--bg-light);
+      border: none;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .product-card button:hover {
+      background: var(--secondary);
+      color: var(--primary);
+    }
+
+
+
+    .PopUp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.PopUp-content {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  text-align: center;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary);
+  color: var(--bg-light);
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#PopUpMainImg {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+
+#SideImgCon{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  top: 1rem;
+  left: -0.5rem;
+}
+
+.SideImg{
+  width: 30px;
+  box-shadow: 0 4px 6px #F8F4E3, 
+              0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+
+
+.hidden {
+  display: none;
+}
+
+
+
+    
+
+
+
+    footer {
+      background: var(--primary);
+      color: var(--bg-light);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+    
+    }
+
+    #site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--primary);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .header-hidden {
+      transform: translateY(-100%);
+    }
+
+    .divider-line {
+      position: absolute;
+
+      width: 100%;
+      height: 20px;
+      z-index: 4;
+      pointer-events: none;
+      box-shadow: #f1f1f1;
+    }
