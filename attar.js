@@ -1,43 +1,59 @@
 
 let lastScrollTop = 0;
-let cartItems = []
- cartItems.push( {
-        name: "Amir",
-        price: "₹300",
-        images: ["./public/WhatsApp Image 2025-07-10 at 3.47.02 PM (1).jpeg", "public/WhatsApp Image 2025-07-10 at 3.47.02 PM.jpeg", "public/WhatsApp Image 2025-07-10 at 3.47.03 PM.jpeg"],
-        detail: "A light, everyday fragrance with floral hints.",
-        fragrance: "Musk",
-        occasion: "daily"
-      })
+let cartItems = [];
 
+function updateCartUI() {
+  const cartList = document.getElementById("cartItemsList");
+  cartList.innerHTML = "";
 
-      function addToCart(pro){
+  cartItems.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `
+      <div class="cartCard">
+     <img src="${item.images[0]}" alt=""  class="cartImg">
+     <div class="cartDetail"> 
+      <span>Name:  ${item.name} </span>
+     <span>Price: ${item.price}</span>
+     <div>
+      <button class="Mainbut butClick" data-index="${i}">Buy Now</button>    <button class="delete-btn Mainbut butClick" data-index="${i}">Delete</button>
+</div>
+</div>
+</div>
+    `
+    console.log(item.images);
+    cartList.appendChild(div);
+  });
+}
 
-        cartItems.push(pro)
-      }
+// Add item to cart
+function addToCart(pro) {
+  cartItems.push(pro);
+  updateCartUI();
+}
 
-
+// Toggle cart open
 const cartToggleBtn = document.getElementById('cartToggleBtn');
 const cartPanel = document.getElementById('cartPanel');
 const closeCartBtn = document.getElementById('closeCartBtn');
 
 cartToggleBtn.addEventListener('click', () => {
   cartPanel.classList.add('visible');
-  const cartItemsList = document.getElementById('cartItemsList');
-cartItemsList.innerHTML = "";
-
-cartItems.forEach(item => {
-  const li = document.createElement('li');
-  li.textContent = `${item.name} - ₹${item.price}`;
-  cartItemsList.appendChild(li);
-});
+  updateCartUI(); // Show latest cart
 });
 
 closeCartBtn.addEventListener('click', () => {
   cartPanel.classList.remove('visible');
 });
 
-
+// Delete item from cart
+document.getElementById("cartItemsList").addEventListener("click", function (e) {
+  if (e.target.classList.contains("delete-btn")) {
+    const index = e.target.dataset.index;
+    cartItems.splice(index, 1);
+    updateCartUI();
+  }
+});
 
 
 
@@ -47,18 +63,28 @@ function card(product, brand, index) {
   card.classList.add("product-card");
   card.setAttribute("data-brand", brand);
   card.setAttribute("data-index", index);
-
   card.innerHTML = `
     <img src="${product.images[0]}" alt="${product.name}">
     <div>${product.name}</div>
     <div class="price">${product.price}</div>
-    <button class="add-to-cart" >Add to Cart</button>
+    <button class="add-to-cart butClick" >Show Details</button>
   `;
-
-
-
   return card;
 }
+
+const buttons = document.querySelectorAll(".butClick");
+
+buttons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    btn.classList.add("flash");
+
+    setTimeout(() => {
+      btn.classList.remove("flash");
+    }, 200);
+  });
+});
+
+
 
 
 const productsByBrand = {
@@ -116,8 +142,8 @@ const productsByBrand = {
       ,
       fragrance: "light",
       occasion: "daily",
-      
-    
+
+
     },
     {
       name: "Sultan",
@@ -253,32 +279,31 @@ SeaBut.addEventListener("click", function () {
 });
 
 
-  function FilteredPro(product)
-  {
-    mainContent.innerHTML = "";
-    const row = document.createElement("div");
+function FilteredPro(product) {
+  mainContent.innerHTML = "";
+  const row = document.createElement("div");
   row.classList.add("fillProduct");
 
   product.forEach((product) => {
     const productCard = card(product, product.brand, product.index);
     row.appendChild(productCard);
   })
-mainContent.appendChild(row);
+  mainContent.appendChild(row);
 };
 
 
 function displayProducts(filter = {}) {
   const allProducts = Object.entries(productsByBrand).flatMap(([brand, products]) =>
-    products.map((product,index) => ({ ...product, brand,index }))
+    products.map((product, index) => ({ ...product, brand, index }))
   );
 
   const filtered = allProducts.filter(product => {
     for (let key in filter) {
       if (product[key] !== filter[key]) return false;
     }
-     return true;
+    return true;
   });
- FilteredPro(filtered)
+  FilteredPro(filtered)
 }
 
 
@@ -286,7 +311,7 @@ function displayProducts(filter = {}) {
 function priceFilter(startPrice, endPrice) {
 
   const allProducts = Object.entries(productsByBrand).flatMap(([brand, products]) =>
-    products.map((product,index) => ({ ...product, brand,index }))
+    products.map((product, index) => ({ ...product, brand, index }))
   );
   const filtered = allProducts.filter((product) => {
     const numericPrice = parseInt(product.price.replace("₹", ""));
@@ -295,7 +320,7 @@ function priceFilter(startPrice, endPrice) {
   });
 
   FilteredPro(filtered)
-  
+
 }
 
 
@@ -358,6 +383,14 @@ const PopUpDetail = document.getElementById("PopUpDetail");
 const PopUpClose = document.getElementById("PopUpClose");
 const addCartBut = document.getElementById("addCart")
 
+let currentProduct = null;
+
+addCartBut.addEventListener('click', () => {
+  if (currentProduct) {
+    addToCart(currentProduct);
+    console.log(cartItems, "hellooo");
+  }
+});
 
 document.addEventListener("click", function (e) {
   const card = e.target.closest(".product-card");
@@ -371,36 +404,29 @@ document.addEventListener("click", function (e) {
   const product = productsByBrand[brand][index];
   if (!product) return;
 
+  currentProduct = product;
+
+  // --- Populate popup as before ---
   PopUpSideImages.innerHTML = ``;
   PopUpTitle.textContent = product.name;
   PopUpPrice.textContent = product.price;
   PopUpDetail.textContent = product.detail;
   PopUpMainImg.src = product.images[0];
   PopUpMainImg.alt = product.name;
-  
 
   product.images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
     img.alt = product.name;
     img.classList.add("SideImg");
-     img.setAttribute("data-index", i);
+    img.setAttribute("data-index", i);
     img.onclick = () => (PopUpMainImg.src = src);
     PopUpSideImages.appendChild(img);
   });
 
   PopUp.classList.remove("hidden");
-  addCartBut.addEventListener('click' ,() =>{ addToCart(product)})
-  console.log(product)
 });
-
 
 PopUpClose.addEventListener("click", () => {
-
   PopUp.classList.add("hidden");
 });
-
-
-
-
-
